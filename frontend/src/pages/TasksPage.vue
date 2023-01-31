@@ -1,12 +1,16 @@
 <template>
-  <Tasks />
+  <div>
+    <Tasks />
+  </div>
 </template>
 
 <script>
+import Tasks from "src/components/tasks/Tasks.vue";
+
 export default {
   name: 'TasksPage',
   components: {
-    Tasks: () => import("src/components/tasks/Tasks.vue"),
+    Tasks: Tasks,
   },
 }
 </script>

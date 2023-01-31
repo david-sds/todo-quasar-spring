@@ -1,29 +1,55 @@
 <template>
-  <div style="width: 100vw; height: 100vh; background-color: cyan">
-    <q-list bordered separator>
-      <q-item v-for="task in tasks" :key="`${task.group}-${task.title}`">
-        <span>{{ task.title }}</span>
-        <span>{{ task.group }}</span>
-        <span>{{ task.day }}</span>
-        <span>{{ task.reccurency }}</span>
-        <span>{{ task.favorited }}</span>
-      </q-item>
-    </q-list>
+  <div>
+    <q-expansion-item label="To Do" default-opened>
+      <q-list bordered separator>
+        <Task
+          v-for="(task, index) in tasksToDo"
+          :key="`${task.group}-${task.title}`"
+          :_done="task.done"
+          :_title="task.title"
+          :_group="task.group"
+          :_day="task.day"
+          :_reccurency="task.reccurency"
+          :_favorited="task.favorited"
+          @update-done="updateDone(index, $event)"
+        />
+      </q-list>
+    </q-expansion-item>
+    <q-expansion-item :label="doneLabel">
+      <q-list bordered separator>
+        <Task
+          v-for="(task, index) in tasksDone"
+          :key="`${task.group}-${task.title}`"
+          :_done="task.done"
+          :_title="task.title"
+          :_group="task.group"
+          :_day="task.day"
+          :_reccurency="task.reccurency"
+          :_favorited="task.favorited"
+          @update-done="updateDone(index, $event)"
+        />
+      </q-list>
+    </q-expansion-item>
   </div>
 </template>
 
 <script>
+import Task from "src/components/tasks/Task.vue"
+
 export default {
   name: 'Tasks',
+  components: {
+    Task: Task,
+  },
   data: function () {
     return {
-      tasks: [
+      tasksToDo: [
         {
           title: 'Code a ToDo App 1',
           group: 'TECH',
           done: false,
           day: 'Today',
-          reccurency: false,
+          reccurency: true,
           favorited: false,
         },
                 {
@@ -42,11 +68,30 @@ export default {
           reccurency: false,
           favorited: false,
         },
-      ]
+      ],
+      tasksDone: [],
     };
-  }
+  },
+  computed: {
+    doneLabel: function () {
+      return `Done (${+this.tasksDone.length})`
+    }
+  },
+  methods: {
+    updateDone: function (index, isDone) {
+      console.log(index, isDone);
+      if (isDone) {
+        const task = this.tasksToDo.splice(index, 1)[0];
+        task.done = isDone;
+        this.tasksDone.splice(this.tasksDone.length, 1, task);
+      } else {
+        const task = this.tasksDone.splice(index, 1)[0];
+        task.done = isDone;
+        this.tasksToDo.splice(this.tasksToDo.length, 1, task);
+      }
+      console.log('todo', this.tasksToDo);
+      console.log('done', this.tasksDone);
+    },
+  },
 }
 </script>
-
-<style>
-</style>

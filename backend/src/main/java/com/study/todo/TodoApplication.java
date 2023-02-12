@@ -11,3 +11,5 @@ public class TodoApplication {
 	}
 
 }
+
+// docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=admin -d --volumes-from PostgresData postgres

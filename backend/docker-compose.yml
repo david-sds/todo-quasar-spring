@@ -15,19 +15,19 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=testdb
     restart: unless-stopped
-  # APP*****************************************
-  springbootapp:
-    image: springbootapp:latest
-    network_mode: bridge
-    container_name: springbootapp
-    expose:
-      - 8080
-    ports:
-      - 8080:8080
-    restart: unless-stopped
-    depends_on:
-      - postgres
-    links:
-      - postgres
+   # APP*****************************************
+#  springbootapp:
+#    image: springbootapp:latest
+#    network_mode: bridge
+#    container_name: springbootapp
+#    expose:
+#      - 8080
+#    ports:
+#     - 8080:8080
+#    restart: unless-stopped
+#    depends_on:
+#      - postgres
+#    links:
+#      - postgres
 volumes:
   postgres-data:

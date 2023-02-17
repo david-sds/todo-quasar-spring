@@ -9,7 +9,7 @@
       <q-card-section>
         <q-btn flat no-caps @click="close">
           <q-icon name="mdi-arrow-left" />
-          <span>My Day</span>
+          <span>{{  $t('MY_DAY') }} </span>
         </q-btn>
       </q-card-section>
       <q-card-section class="row justify-left items-center">
@@ -29,37 +29,37 @@
         />
       </q-card-section>
       <q-card-section>
-        <q-input borderless label="App step">
+        <q-input borderless :label="$t('APP_STEP')">
           <template v-slot:prepend>
             <q-icon name="mdi-plus" size="18px" />
           </template>
         </q-input>
 
-        <q-input borderless label="Added to My Day">
+        <q-input borderless :label="$t('ADDED_TO_MY_DAY')">
           <template v-slot:prepend>
             <q-icon name="mdi-weather-sunny" size="18px" />
           </template>
         </q-input>
 
-        <q-input borderless label="Remind me">
+        <q-input borderless :label="$t('REMIND_ME')">
           <template v-slot:prepend>
             <q-icon name="mdi-bell-outline" size="18px" />
           </template>
         </q-input>
 
-        <q-input borderless label="Due Today">
+        <q-input borderless :label="$t('DUE_TODAY')">
           <template v-slot:prepend>
             <q-icon name="mdi-calendar" size="18px" />
           </template>
         </q-input>
 
-        <q-input borderless label="Daily">
+        <q-input borderless :label="$t('DAILY')">
           <template v-slot:prepend>
             <q-icon name="mdi-autorenew" size="18px" />
           </template>
         </q-input>
 
-        <q-input borderless label="Add file">
+        <q-input borderless :label="$t('ADD_FILE')">
           <template v-slot:prepend>
             <q-icon name="mdi-attachment" size="18px" />
           </template>

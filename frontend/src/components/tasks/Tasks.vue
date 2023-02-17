@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-expansion-item label="To Do" default-opened>
+    <q-expansion-item :label="$t('TO_DO')" default-opened>
       <q-list bordered separator>
         <Task
           v-for="(task, index) in tasksToDo"
@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     doneLabel: function () {
-      return `Done (${+this.tasksDone.length})`
+      return `${this.$t('DONE')} (${+this.tasksDone.length})`
     }
   },
   methods: {

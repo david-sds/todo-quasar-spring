@@ -15,7 +15,7 @@
         <q-input
           v-model="name"
           class="col-grow"
-          label="Add a task"
+          :label="$t('ADD_A_TASK')"
         />
         <q-btn
           icon="mdi-arrow-up"
@@ -24,21 +24,21 @@
       </q-card-section>
       <q-card-section class="row no-wrap" style="overflow-x: auto;">
         <q-btn
-          label="Set due date"
+          :label="$t('SET_DUE_DATE')"
           icon="today"
           no-caps
           no-wrap
           flat
         />
         <q-btn
-          label="Remind me" 
+          :label="$t('REMIND_ME')"
           icon="mdi-bell-outline"
           no-caps
           no-wrap
           flat
         />
         <q-btn
-          label="Repeat" 
+          :label="$t('REPEAT')"
           icon="mdi-autorenew"
           no-caps
           no-wrap

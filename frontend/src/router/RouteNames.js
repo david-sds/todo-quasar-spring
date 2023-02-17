@@ -1,7 +1,7 @@
 const RouteNames = {
   TASKS: {
     NAME: 'Tasks',
-    PATH: 'tasks',
+    PATH: 'task',
   },
 }
 

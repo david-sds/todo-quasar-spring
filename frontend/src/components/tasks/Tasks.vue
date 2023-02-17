@@ -4,14 +4,15 @@
       <q-list bordered separator>
         <Task
           v-for="(task, index) in tasksToDo"
-          :key="`${task.group}-${task.title}`"
+          :key="`${task.group}-${task.name}`"
           :_done="task.done"
-          :_title="task.title"
+          :_title="task.name"
           :_group="task.group"
           :_day="task.day"
           :_reccurency="task.reccurency"
-          :_favorited="task.favorited"
+          :_favorited="task.favorite"
           @update-done="updateDone(index, $event)"
+          @open-task-details-dialog="openTaskDetailsDialog(task.id)"
         />
       </q-list>
     </q-expansion-item>
@@ -19,58 +20,70 @@
       <q-list bordered separator>
         <Task
           v-for="(task, index) in tasksDone"
-          :key="`${task.group}-${task.title}`"
+          :key="`${task.group}-${task.name}`"
           :_done="task.done"
-          :_title="task.title"
+          :_title="task.name"
           :_group="task.group"
           :_day="task.day"
           :_reccurency="task.reccurency"
-          :_favorited="task.favorited"
+          :_favorited="task.favorite"
           @update-done="updateDone(index, $event)"
+          @open-task-details-dialog="openTaskDetailsDialog(task.id)"
         />
       </q-list>
     </q-expansion-item>
+    <q-btn
+      round
+      icon="mdi-plus"
+      color="blue"
+      class="absolute-bottom-right q-pa-md q-ma-md"
+      @click="openCreateTaskDialog"
+    />
+    <TaskDetailsDialog
+      ref="taskDetailsDialog"
+      :_title="selectedTask.name"
+      :_done="selectedTask.done"
+      :_favorited="selectedTask.favorite"
+    />
+    <CreateTaskDialog
+      ref="createTaskDialog"
+    />
   </div>
 </template>
 
 <script>
 import Task from "src/components/tasks/Task.vue"
+import TaskDetailsDialog from "src/components/tasks/TaskDetailsDialog.vue"
+import CreateTaskDialog from "src/components/tasks/CreateTaskDialog.vue"
 
 export default {
   name: 'Tasks',
   components: {
     Task: Task,
+    TaskDetailsDialog: TaskDetailsDialog,
+    CreateTaskDialog: CreateTaskDialog,
   },
   data: function () {
     return {
-      tasksToDo: [
-        {
-          title: 'Code a ToDo App 1',
-          group: 'TECH',
-          done: false,
-          day: 'Today',
-          reccurency: true,
-          favorited: false,
-        },
-                {
-          title: 'Code a ToDo App 2',
-          group: 'TECH',
-          done: false,
-          day: 'Today',
-          reccurency: false,
-          favorited: false,
-        },
-                {
-          title: 'Code a ToDo App 3',
-          group: 'TECH',
-          done: false,
-          day: 'Today',
-          reccurency: false,
-          favorited: false,
-        },
-      ],
+      tasksToDo: [],
       tasksDone: [],
+      selectedTask: {},
     };
+  },
+  created: async function () {
+    const response = await this.$api.get('task');
+
+    const tasks = response?.data;
+
+    if (tasks) {
+      tasks.forEach(task => {
+        if (task.done) {
+          this.tasksDone.push(task);
+        } else {
+          this.tasksToDo.push(task);
+        }
+      })
+    }
   },
   computed: {
     doneLabel: function () {
@@ -89,8 +102,14 @@ export default {
         task.done = isDone;
         this.tasksToDo.splice(this.tasksToDo.length, 1, task);
       }
-      console.log('todo', this.tasksToDo);
-      console.log('done', this.tasksDone);
+    },
+    openTaskDetailsDialog: function (taskId) {
+      this.selectedTask = this.tasksToDo.find(task => task.id === taskId) ?? this.tasksDone.find(task => task.id === taskId);
+      this.$refs.taskDetailsDialog.open();
+    },
+    openCreateTaskDialog: function () {
+      console.log('this.$refs.createTaskDialog', this.$refs.createTaskDialog);
+      this.$refs.createTaskDialog.open();
     },
   },
 }

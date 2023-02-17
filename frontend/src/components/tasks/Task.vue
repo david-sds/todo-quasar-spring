@@ -2,32 +2,32 @@
   <q-item class="task-card">
     <q-checkbox
       v-model="done"
-      checked-icon="check_circle"
-      unchecked-icon="radio_button_unchecked"
+      checked-icon="mdi-check-circle-outline"
+      unchecked-icon="mdi-circle-outline"
       @click="updateDone"
     />
-    <q-item-section>
+    <q-item-section style="cursor: pointer" @click="openTaskDetailsDialog">
       <div>
-        <span :style="done ? 'text-decoration: line-through;' : ''">{{
-          _title
-        }}</span>
+        <span :style="titleStyle">{{ _title }}</span>
       </div>
       <div>
-        <span v-html="_group" class="neutral-primary-medium" />
-        <q-icon
-          name="circle"
-          size="6px"
-          class="q-mx-xs neutral-primary-medium"
-        />
+        <div v-if="_group">
+          <span v-html="_group" class="neutral-primary-medium" />
+          <q-icon
+            name="circle"
+            size="6px"
+            class="q-mx-xs neutral-primary-medium"
+          />
+        </div>
         <q-icon name="today" color="black" />
         <span>{{ _day }}</span>
-        <q-icon v-if="_reccurency" name="autorenew" color="black" />
+        <q-icon v-if="_reccurency" name="mdi-autorenew" color="black" />
       </div>
     </q-item-section>
     <q-checkbox
       v-model="favorited"
-      checked-icon="star"
-      unchecked-icon="star_border"
+      checked-icon="mdi-star"
+      unchecked-icon="mdi-star-outline"
     />
   </q-item>
 </template>
@@ -67,9 +67,17 @@ export default {
       favorited: this._favorited,
     };
   },
+  computed: {
+    titleStyle: function () {
+      return this.done ? 'text-decoration: line-through;' : '';
+    },
+  },
   methods: {
     updateDone: function () {
       this.$emit('updateDone', this.done);
+    },
+    openTaskDetailsDialog: function () {
+      this.$emit('openTaskDetailsDialog')
     },
   },
 }

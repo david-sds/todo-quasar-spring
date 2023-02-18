@@ -15,7 +15,7 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", unique=true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
     private String name;
@@ -27,7 +27,7 @@ public class Task {
     private Date remind_me_date;
     private Boolean favorite;
     private Boolean my_day;
-	private Long group_id;
+    private Long group_id;
     private Long steps_id;
     private Long file_id;
     private Long notes_id;

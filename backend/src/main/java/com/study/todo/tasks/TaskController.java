@@ -19,7 +19,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getTask(@RequestParam(value = "id") String id){
+    public ResponseEntity<?> getTask(@RequestParam(value = "id") String id) {
         Long Id = Long.parseLong(id);
         return ResponseEntity.ok(taskService.getTask(Id));
     }

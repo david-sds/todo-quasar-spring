@@ -18,8 +18,9 @@ public class RestController {
     public RestController(RestService restService) {
         this.restService = restService;
     }
+
     @RequestMapping(value = "data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity onResRequest(@RequestParam(value = "id") String id){
+    public ResponseEntity onResRequest(@RequestParam(value = "id") String id) {
         Long Id = Long.parseLong(id);
         return ResponseEntity.ok(restService.getBookStats(Id));
     }

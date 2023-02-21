@@ -3,8 +3,9 @@
 ## Feature List
 
 ### To Do
-- Token JWT
+
 
 ### Done
 - i18n
+- Token JWT
 - Postgres running on Docker

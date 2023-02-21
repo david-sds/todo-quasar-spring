@@ -8,7 +8,7 @@
 import Tasks from "src/components/tasks/Tasks.vue";
 
 export default {
-  name: 'TasksPage',
+  name: 'Tasks',
   components: {
     Tasks: Tasks,
   },

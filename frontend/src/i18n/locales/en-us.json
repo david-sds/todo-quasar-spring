@@ -10,5 +10,11 @@
   "REMIND_ME": "Remind me",
   "DUE_TODAY": "Due Today",
   "DAILY": "Daily",
-  "ADD_FILE": "Add file"
+  "ADD_FILE": "Add file",
+  "FIRST_NAME": "First name",
+  "LAST_NAME": "Last name",
+  "EMAIL": "Email",
+  "PASSWORD": "Password",
+  "REGISTER": "Register",
+  "LOGIN": "Login"
 }

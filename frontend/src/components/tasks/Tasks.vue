@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-expansion-item :label="$t('TO_DO')" default-opened>
+    <q-expansion-item v-if="tasksToDo.length" :label="$t('TO_DO')" default-opened>
       <q-list bordered separator>
         <Task
           v-for="(task, index) in tasksToDo"
@@ -16,7 +16,7 @@
         />
       </q-list>
     </q-expansion-item>
-    <q-expansion-item :label="doneLabel">
+    <q-expansion-item v-if="tasksDone.length" :label="doneLabel">
       <q-list bordered separator>
         <Task
           v-for="(task, index) in tasksDone"

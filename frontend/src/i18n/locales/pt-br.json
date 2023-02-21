@@ -10,5 +10,11 @@
   "ADDED_TO_MY_DAY": "Adicionar ao Meu dia",
   "DUE_TODAY": "Para hoje",
   "DAILY": "Diário",
-  "ADD_FILE": "Adicionar arquivo"
+  "ADD_FILE": "Adicionar arquivo",
+  "FIRST_NAME": "Primeiro nome",
+  "LAST_NAME": "Último nome",
+  "EMAIL": "Email",
+  "PASSWORD": "Senha",
+  "REGISTER": "Registrar",
+  "LOGIN": "Login"
 }

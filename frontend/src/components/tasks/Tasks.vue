@@ -92,7 +92,6 @@ export default {
   },
   methods: {
     updateDone: function (index, isDone) {
-      console.log(index, isDone);
       if (isDone) {
         const task = this.tasksToDo.splice(index, 1)[0];
         task.done = isDone;
@@ -108,7 +107,6 @@ export default {
       this.$refs.taskDetailsDialog.open();
     },
     openCreateTaskDialog: function () {
-      console.log('this.$refs.createTaskDialog', this.$refs.createTaskDialog);
       this.$refs.createTaskDialog.open();
     },
   },

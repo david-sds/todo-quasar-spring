@@ -30,7 +30,6 @@ export default {
   methods: {
     loginUser: async function () {
       const auth = useAuthStore();
-      console.log('auth.isLoggedIn', auth.isLoggedIn);
 
       const params = {
         email: this.email,
@@ -38,8 +37,6 @@ export default {
       }
 
       const response = await auth.login(params);
-
-      console.log('auth.isLoggedIn', auth.isLoggedIn);
     },
   },
 }

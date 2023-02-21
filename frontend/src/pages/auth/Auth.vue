@@ -17,9 +17,6 @@ export default {
     Login: Login,
     Register: Register,
   },
-  created: function () {
-    console.log('$store', this.$store);
-  },
   data: function () {
     return {
       isNewUser: true,

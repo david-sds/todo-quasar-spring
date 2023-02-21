@@ -43,11 +43,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await api.post('auth/authenticate', params);
 
-        console.log('loginResponse', response);
-
         this.user.jwt = response.data?.token;
-
-        console.log('response', response);
       } catch (e) {
         throw new Error(e);
       }

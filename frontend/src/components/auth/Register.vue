@@ -41,7 +41,6 @@ export default {
   methods: {
     createUser: async function () {
       const auth = useAuthStore();
-      console.log('auth', auth);
 
       const params = {
         firstName: this.firstName,

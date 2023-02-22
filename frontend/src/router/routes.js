@@ -10,14 +10,10 @@ const routes = [
         component : () => import('src/pages/auth/Auth.vue')
       },
       {
-        path: 'a',
-        component: () => import('pages/IndexPage.vue'),
-      },
-      {
         path: RouteNames.TASKS.PATH,
-        component: () => import('src/pages/tasks/Tasks.vue'),
+        component: () => import('src/pages/tasks/TasksPage.vue'),
       },
-     ],
+    ],
   },
 
   // Always leave this as last one,

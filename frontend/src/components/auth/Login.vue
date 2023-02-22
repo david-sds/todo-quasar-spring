@@ -18,6 +18,7 @@
 
 <script>
 import { useAuthStore } from 'src/stores/auth.js'
+import RouteNames from 'src/router/RouteNames'
 
 export default {
   name: 'Login',
@@ -37,6 +38,8 @@ export default {
       }
 
       const response = await auth.login(params);
+
+      this.$router.push(RouteNames.TASKS.PATH)
     },
   },
 }

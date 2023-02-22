@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { api } from 'src/boot/axios';
-import { Router } from 'vue';
+import { useLocalStorage } from '@vueuse/core'
+
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -9,7 +10,7 @@ export const useAuthStore = defineStore('auth', {
       firstname: null,
       lastname: null,
       email: null,
-      jwt: null,
+      jwt: useLocalStorage('jwt', null),
     }
   }),
 
@@ -42,8 +43,9 @@ export const useAuthStore = defineStore('auth', {
 
       try {
         const response = await api.post('auth/authenticate', params);
+        const jwt = response.data?.token;
 
-        this.user.jwt = response.data?.token;
+        this.user.jwt = jwt;
       } catch (e) {
         throw new Error(e);
       }

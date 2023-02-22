@@ -25,6 +25,7 @@ public class TaskController {
     }
 
     @GetMapping
+    @CrossOrigin(origins = "http://localhost:8080")
     public ResponseEntity<?> getTasks() {
         return ResponseEntity.ok(taskService.getTasks());
     }

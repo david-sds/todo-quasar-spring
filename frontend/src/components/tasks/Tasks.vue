@@ -55,6 +55,7 @@
 import Task from "src/components/tasks/Task.vue"
 import TaskDetailsDialog from "src/components/tasks/TaskDetailsDialog.vue"
 import CreateTaskDialog from "src/components/tasks/CreateTaskDialog.vue"
+import { useAuthStore } from 'src/stores/auth.js'
 
 export default {
   name: 'Tasks',
@@ -71,6 +72,12 @@ export default {
     };
   },
   created: async function () {
+    const auth = useAuthStore();
+
+    console.log('store', auth)
+
+    this.$api.defaults.headers.authorization = "Bearer " + auth.user.jwt;
+
     const response = await this.$api.get('task');
 
     const tasks = response?.data;

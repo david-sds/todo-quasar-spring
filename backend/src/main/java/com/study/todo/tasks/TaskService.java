@@ -25,10 +25,14 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public List<Task> getUserTasks(Long userId) {
+        return taskRepository.findByUserId(userId);
+    }
+
     public Task saveTask(Task task) {
         task.setDone(task.getDone() != null && task.getDone());
-        task.setRemind_me(task.getRemind_me() != null && task.getRemind_me());
-        task.setMy_day(task.getMy_day() != null && task.getMy_day());
+        task.setRemindMe(task.getRemindMe() != null && task.getRemindMe());
+        task.setMyDay(task.getMyDay() != null && task.getMyDay());
         task.setFavorite(task.getFavorite() != null && task.getFavorite());
         return taskRepository.save(task);
     }

@@ -20,15 +20,16 @@ public class Task {
 
     private String name;
     private String icon;
-    private Date due_date;
+    private Date dueDate;
     private Boolean done;
-    private Date done_data;
-    private Boolean remind_me;
-    private Date remind_me_date;
+    private Date doneData;
+    private Boolean remindMe;
+    private Date remindMeDate;
     private Boolean favorite;
-    private Boolean my_day;
-    private Long group_id;
-    private Long steps_id;
-    private Long file_id;
-    private Long notes_id;
+    private Boolean myDay;
+    private Long groupId;
+    private Long stepsId;
+    private Long fileId;
+    private Long notesId;
+    private Long userId;
 }

@@ -4,7 +4,7 @@
       <q-list bordered separator>
         <Task
           v-for="(task, index) in tasksToDo"
-          :key="`${task.group}-${task.name}`"
+          :key="`${index}${task.id}`"
           :_done="task.done"
           :_title="task.name"
           :_group="task.group"
@@ -16,11 +16,11 @@
         />
       </q-list>
     </q-expansion-item>
-    <q-expansion-item v-if="tasksDone.length" :label="doneLabel">
+    <q-expansion-item v-if="tasksDone.length" :label="`${$t('DONE')} (${tasksDone.length})`">
       <q-list bordered separator>
         <Task
           v-for="(task, index) in tasksDone"
-          :key="`${task.group}-${task.name}`"
+          :key="`${index}${task.id}`"
           :_done="task.done"
           :_title="task.name"
           :_group="task.group"
@@ -40,6 +40,7 @@
       @click="openCreateTaskDialog"
     />
     <TaskDetailsDialog
+      v-if="selectedTask.name"
       ref="taskDetailsDialog"
       :_title="selectedTask.name"
       :_done="selectedTask.done"
@@ -47,6 +48,7 @@
     />
     <CreateTaskDialog
       ref="createTaskDialog"
+      @created="load"
     />
   </div>
 </template>
@@ -55,7 +57,7 @@
 import Task from "src/components/tasks/Task.vue"
 import TaskDetailsDialog from "src/components/tasks/TaskDetailsDialog.vue"
 import CreateTaskDialog from "src/components/tasks/CreateTaskDialog.vue"
-import { useAuthStore } from 'src/stores/auth.js'
+import { createTask } from 'src/requests/tasks'
 
 export default {
   name: 'Tasks',
@@ -72,41 +74,38 @@ export default {
     };
   },
   created: async function () {
-    const auth = useAuthStore();
-
-    console.log('store', auth)
-
-    this.$api.defaults.headers.authorization = "Bearer " + auth.user.jwt;
-
-    const response = await this.$api.get('task');
-
-    const tasks = response?.data;
-
-    if (tasks) {
-      tasks.forEach(task => {
-        if (task.done) {
-          this.tasksDone.push(task);
-        } else {
-          this.tasksToDo.push(task);
-        }
-      })
-    }
-  },
-  computed: {
-    doneLabel: function () {
-      return `${this.$t('DONE')} (${+this.tasksDone.length})`
-    }
+    await this.load();
   },
   methods: {
-    updateDone: function (index, isDone) {
+    load: async function () {
+      const response = await this.$api.get('task');
+
+      const tasks = response?.data;
+
+      this.tasksDone = []
+      this.tasksToDo = []
+
+      if (tasks) {
+        tasks.forEach(task => {
+          if (task.done) {
+            this.tasksDone.push(task);
+          } else {
+            this.tasksToDo.push(task);
+          }
+        })
+      }
+    },
+    updateDone: async function (index, isDone) {
       if (isDone) {
         const task = this.tasksToDo.splice(index, 1)[0];
         task.done = isDone;
         this.tasksDone.splice(this.tasksDone.length, 1, task);
+        await createTask(task);
       } else {
         const task = this.tasksDone.splice(index, 1)[0];
         task.done = isDone;
         this.tasksToDo.splice(this.tasksToDo.length, 1, task);
+        await createTask(task);
       }
     },
     openTaskDetailsDialog: function (taskId) {
@@ -116,6 +115,7 @@ export default {
     openCreateTaskDialog: function () {
       this.$refs.createTaskDialog.open();
     },
-  },
+  }
 }
+
 </script>

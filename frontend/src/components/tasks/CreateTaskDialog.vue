@@ -69,6 +69,8 @@ export default {
 
         await this.$api.post('task', params)
 
+        this.$emit('created');
+
         this.close();
       } catch (e) {
         throw new Error(e);

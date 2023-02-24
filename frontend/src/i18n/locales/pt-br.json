@@ -15,6 +15,12 @@
   "LAST_NAME": "Último nome",
   "EMAIL": "Email",
   "PASSWORD": "Senha",
+  "CONFIRM_PASSWORD": "Confirme a senha",
   "REGISTER": "Registrar",
-  "LOGIN": "Login"
+  "LOGIN": "Login",
+  "LOGOUT": "Logout",
+  "REMEMBER_ME_?": "Continuar conectado?",
+  "FORGOT_PASSWORD_?": "Esqueceu senha?",
+  "ALREADY_A_USER_?": "Já é um usuário?",
+  "NEED_AN_ACCOUNT_?": "Precisa de uma conta?" 
 }

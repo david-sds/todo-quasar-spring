@@ -31,17 +31,14 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<?> getTasks() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)(authentication.getPrincipal());
-        Long userId = user.getId();
+        List<Task> userTasks = taskService.getUserTasks(User.getLoggedUserId());
 
-        List<Task> userTasks = taskService.getUserTasks(userId);
-
-        return ResponseEntity.ok(userId);
+        return ResponseEntity.ok(userTasks);
     }
 
     @PostMapping
     public ResponseEntity<?> saveTask(@RequestBody Task task) {
+        task.setUserId(User.getLoggedUserId());
         return ResponseEntity.ok(taskService.saveTask(task));
     }
 

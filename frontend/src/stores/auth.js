@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth', {
       firstname: null,
       lastname: null,
       email: null,
+      role: null,
       jwt: useLocalStorage('jwt', null),
     }
   }),
@@ -42,10 +43,25 @@ export const useAuthStore = defineStore('auth', {
       }
 
       try {
-        const response = await api.post('auth/authenticate', params);
-        const jwt = response.data?.token;
+        const loginResponse = await api.post('auth/authenticate', params);
+        const jwt = loginResponse.data?.token;
 
         this.user.jwt = jwt;
+
+        await this.updateUserData();
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+    async updateUserData () {
+      try {
+        const userDataResponse = await api.get('user');
+
+        this.user.email = userDataResponse.data.email;
+        this.user.firstname = userDataResponse.data.firstname;
+        this.user.id = userDataResponse.data.id;
+        this.user.lastname = userDataResponse.data.lastname;
+        this.user.role = userDataResponse.data.role;
       } catch (e) {
         throw new Error(e);
       }
@@ -55,6 +71,7 @@ export const useAuthStore = defineStore('auth', {
       this.user.firstname = null;
       this.user.lastname = null;
       this.user.email = null;
+      this.user.role = null;
       this.user.jwt = null;
     },
   }

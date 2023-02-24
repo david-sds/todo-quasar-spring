@@ -39,26 +39,32 @@ export default {
     _done: {
       required: true,
       type: Boolean,
+      default: false,
     },
     _title: {
       required: true,
       type: String,
+      default: '',
     },
     _group: {
       required: true,
       type: String,
+      default: '',
     },
     _day: {
       required: true,
       type: String,
+      default: '',
     },
     _reccurency: {
       required: true,
       type: Boolean,
+      default: false,
     },
     _favorited: {
       required: true,
       type: Boolean,
+      default: false,
     },
   },
   data: function () {

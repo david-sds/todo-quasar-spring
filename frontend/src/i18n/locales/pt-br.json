@@ -22,5 +22,14 @@
   "REMEMBER_ME_?": "Continuar conectado?",
   "FORGOT_PASSWORD_?": "Esqueceu senha?",
   "ALREADY_A_USER_?": "Já é um usuário?",
-  "NEED_AN_ACCOUNT_?": "Precisa de uma conta?" 
+  "NEED_AN_ACCOUNT_?": "Precisa de uma conta?",
+  "NOTIFY": {
+    "USER": {
+      "CREATED": "Conta criada.",
+      "WELCOME": "Bem-vindo {name}!"
+    },
+    "TASK": {
+      "CREATED": "Atividade criada."
+    }
+  }
 }

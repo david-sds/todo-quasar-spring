@@ -22,5 +22,14 @@
   "REMEMBER_ME_?": "Remember me?",
   "FORGOT_PASSWORD_?": "Forgot password?",
   "ALREADY_A_USER_?": "Already a user?",
-  "NEED_AN_ACCOUNT_?": "Need an account?" 
+  "NEED_AN_ACCOUNT_?": "Need an account?",
+  "NOTIFY": {
+    "USER": {
+      "CREATED": "Account created.",
+      "WELCOME": "Welcome {name}!"
+    },
+    "TASK": {
+      "CREATED": "Task created."
+    }
+  }
 }

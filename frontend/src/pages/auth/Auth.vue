@@ -21,10 +21,6 @@
             class="q-mb-md"
             :label="$t('PASSWORD')"
           />
-          <div class="row justify-start items-center">
-            <q-checkbox v-model="rememberMe" size="sm"/>
-            <p v-html="$t('REMEMBER_ME_?')" class="q-mb-none"/>
-          </div>
           <q-btn
             :label="$t('LOGIN')"
             no-caps
@@ -134,7 +130,6 @@ export default {
       },
       passwordConfirmation: null,
       isLogin: true,
-      rememberMe: false,
     };
   },
   methods: {

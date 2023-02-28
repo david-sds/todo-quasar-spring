@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import Router from 'src/router'
 import axios from 'axios'
+import RouteNames from 'src/router/RouteNames';
 
 const api = axios.create({
   baseURL: 'http://localhost:8080/',
@@ -35,6 +36,16 @@ api.interceptors.response.use(
     }
   },
   error => {
+    switch (error.response.status) {
+      case 403:
+        localStorage.removeItem('jwt')
+        Router().push(RouteNames.AUTH.PATH)
+        location.reload()
+        break;
+      default:
+        break;
+    }
+
     return Promise.reject(error.response);
   }
 );

@@ -40,7 +40,6 @@
       @click="openCreateTaskDialog"
     />
     <TaskDetailsDialog
-      v-if="selectedTask.name"
       ref="taskDetailsDialog"
       :_title="selectedTask.name"
       :_done="selectedTask.done"

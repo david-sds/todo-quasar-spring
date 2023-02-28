@@ -2,6 +2,14 @@ import { defineStore } from 'pinia';
 import { api } from 'src/boot/axios';
 import { useLocalStorage } from '@vueuse/core'
 
+import {
+  notifySuccess,
+  notifyError
+ } from 'src/boot/notify'
+import { i18n } from 'src/boot/i18n';
+
+const { t, tc } = i18n.global;
+
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -32,11 +40,15 @@ export const useAuthStore = defineStore('auth', {
         const response = await api.post('auth/register', params);
 
         this.user.jwt = response.data?.token;
+
+        notifySuccess(t('NOTIFY.USER.CREATED'))
       } catch (e) {
         throw new Error(e);
       }
     },
     async login (user) {
+      console.log(i18n);
+
       const params = {
         email: user.email,
         password: user.password,
@@ -49,6 +61,10 @@ export const useAuthStore = defineStore('auth', {
         this.user.jwt = jwt;
 
         await this.updateUserData();
+
+        console.log('name', this.user.firstname);
+
+        notifySuccess(t('NOTIFY.USER.WELCOME', { name: this.user.firstname }))
       } catch (e) {
         throw new Error(e);
       }

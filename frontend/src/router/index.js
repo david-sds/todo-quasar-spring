@@ -13,7 +13,7 @@ import { useAuthStore } from 'src/stores/auth.js'
  * with the Router instance.
  */
 
-export default route(function ({ store }) {
+export default route(function () {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)

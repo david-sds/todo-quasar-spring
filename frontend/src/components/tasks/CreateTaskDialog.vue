@@ -16,6 +16,7 @@
           v-model="name"
           class="col-grow"
           :label="$t('ADD_A_TASK')"
+          @keypress.enter="createTask"
         />
         <q-btn
           icon="mdi-arrow-up"
@@ -50,6 +51,8 @@
 </template>
 
 <script>
+import { createTask } from 'src/requests/tasks'
+
 export default {
   name: "CreateTaskDialog",
   data: function () {
@@ -62,14 +65,16 @@ export default {
   methods: {
     createTask: async function () {
       try {
-        const params = {
+        const task = {
           name: this.name,
           done: this.done,
         };
 
-        await this.$api.post('task', params)
+        await createTask(task)
 
         this.$emit('created');
+
+        this.$notify.success(this.$t('NOTIFY.TASK.CREATED'))
 
         this.close();
       } catch (e) {

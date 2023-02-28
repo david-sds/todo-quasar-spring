@@ -76,14 +76,17 @@ export default {
     _title: {
       required: true,
       type: String,
+      default: '',
     },
     _done: {
       required: true,
       type: Boolean,
+      default: false,
     },
     _favorited: {
       required: true,
       type: Boolean,
+      default: false,
     },
   },
   data: function () {
@@ -94,6 +97,9 @@ export default {
     };
   },
   methods: {
+    updateDone: function () {
+      this.$emit('updateDone', this.done);
+    },
     open: async function () {
       this.isOpen = true;
     },

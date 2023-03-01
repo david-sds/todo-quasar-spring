@@ -44,6 +44,7 @@
       :_title="selectedTask.name"
       :_done="selectedTask.done"
       :_favorited="selectedTask.favorite"
+      :_createdAt="selectedTask.createdAt"
     />
     <CreateTaskDialog
       ref="createTaskDialog"

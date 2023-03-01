@@ -47,8 +47,6 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     async login (user) {
-      console.log(i18n);
-
       const params = {
         email: user.email,
         password: user.password,
@@ -61,8 +59,6 @@ export const useAuthStore = defineStore('auth', {
         this.user.jwt = jwt;
 
         await this.updateUserData();
-
-        console.log('name', this.user.firstname);
 
         notifySuccess(t('NOTIFY.USER.WELCOME', { name: this.user.firstname }))
       } catch (e) {

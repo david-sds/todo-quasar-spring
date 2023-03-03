@@ -85,6 +85,8 @@ export const useAuthStore = defineStore('auth', {
       this.user.email = null;
       this.user.role = null;
       this.user.jwt = null;
+
+      notifySuccess(t('NOTIFY.USER.LOGOUT'))
     },
   }
 })

@@ -10,7 +10,6 @@
   "ADDED_TO_MY_DAY": "Added to My Day",
   "REMIND_ME": "Remind me",
   "DUE_TODAY": "Due Today",
-  "DAILY": "Daily",
   "ADD_FILE": "Add file",
   "CREATED_ON": "Created on",
   "FIRST_NAME": "First name",
@@ -29,10 +28,23 @@
   "WILL_BE_PERMANENTLY_DELETED": "will be permatently deleted.",
   "CANCEL": "Cancel",
   "DELETE": "Delete",
+  "TODAY": "Today",
+  "LATER_TODAY": "Later today",
+  "TOMORROW": "Tomorrow",
+  "NEXT_WEEK": "Next week",
+  "PICK_A_DATE": "Pick a date",
+  "PICK_A_DATE_AND_TIME": "Pick a date & time",
+  "DAILY": "Daily",
+  "WEEKDAYS": "Weekdays",
+  "WEEKLY": "Weekly",
+  "MONTHLY": "Monthly",
+  "YEARLY": "Yearly",
+  "CUSTOM": "Custom",
   "NOTIFY": {
     "USER": {
       "CREATED": "Account created.",
-      "WELCOME": "Welcome {name}!"
+      "WELCOME": "Welcome {name}!",
+      "LOGOUT": "Logging out..."
     },
     "TASK": {
       "CREATED": "Task created."

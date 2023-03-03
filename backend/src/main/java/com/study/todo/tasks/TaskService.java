@@ -37,4 +37,10 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public boolean deleteTask(Long taskId) {
+        taskRepository.deleteById(String.valueOf(taskId));
+
+        return true;
+    }
+
 }

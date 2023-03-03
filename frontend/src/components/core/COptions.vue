@@ -1,7 +1,10 @@
 <template>
   <q-btn-dropdown
+    :icon="_buttonIcon"
+    :label="_buttonLabel"
+    no-caps
+    no-wrap
     flat
-    icon="mdi-dots-vertical"
     no-icon-animation
     class="c-options"
   >
@@ -15,6 +18,7 @@
         @click="$emit(option.id, $event)"
       >
         <q-icon
+          v-if="option.icon"
           :name="option.icon"
           size="sm"
           class="q-mr-md"
@@ -32,8 +36,16 @@ export default {
     _options: {
       type: Array,
       default: () => ([])
-    }
-  }
+    },
+    _buttonLabel: {
+      type: String,
+      default: '',
+    },
+    _buttonIcon: {
+      type: String,
+      default: 'mdi-dots-vertical',
+    },
+  },
 }
 </script>
 

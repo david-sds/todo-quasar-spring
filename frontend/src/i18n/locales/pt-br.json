@@ -10,7 +10,6 @@
   "NEXT_STEP": "Próximo passo",
   "ADDED_TO_MY_DAY": "Adicionar ao Meu dia",
   "DUE_TODAY": "Para hoje",
-  "DAILY": "Diário",
   "ADD_FILE": "Adicionar arquivo",
   "CREATED_ON": "Criado em",
   "FIRST_NAME": "Primeiro nome",
@@ -29,10 +28,23 @@
   "WILL_BE_PERMANENTLY_DELETED": "vai ser deletada permanentemente.",
   "CANCEL": "Cancelar",
   "DELETE": "Deletar",
+  "TODAY": "Hoje",
+  "LATER_TODAY": "Hoje mais tarde",
+  "TOMORROW": "Amanhã",
+  "NEXT_WEEK": "Próxima semana",
+  "PICK_A_DATE": "Escolha uma data",
+  "PICK_A_DATE_AND_TIME": "Escolha uma data e hora",
+  "DAILY": "Diário",
+  "WEEKDAYS": "Dias úteis",
+  "WEEKLY": "Semanal",
+  "MONTHLY": "Mensal",
+  "YEARLY": "Anual",
+  "CUSTOM": "Personalizado",
   "NOTIFY": {
     "USER": {
       "CREATED": "Conta criada.",
-      "WELCOME": "Bem-vindo {name}!"
+      "WELCOME": "Bem-vindo {name}!",
+      "LOGOUT": "Saindo..."
     },
     "TASK": {
       "CREATED": "Atividade criada."

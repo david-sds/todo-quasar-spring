@@ -5,14 +5,15 @@
         <Task
           v-for="(task, index) in tasksToDo"
           :key="`${index}${task.id}`"
-          :_done="task.done"
+          :_id="task.id"
+          :_done="false"
           :_title="task.name"
           :_group="task.group"
           :_day="task.day"
           :_reccurency="task.reccurency"
-          :_favorited="task.favorite"
-          @update-done="updateDone(index, $event)"
-          @open-task-details-dialog="openTaskDetailsDialog(task.id)"
+          :_favorite="task.favorite"
+          @updated="updateTask($event, task)"
+          @open-task-details-dialog="openTaskDetailsDialog(task)"
         />
       </q-list>
     </q-expansion-item>
@@ -21,14 +22,15 @@
         <Task
           v-for="(task, index) in tasksDone"
           :key="`${index}${task.id}`"
-          :_done="task.done"
+          :_id="task.id"
+          :_done="true"
           :_title="task.name"
           :_group="task.group"
           :_day="task.day"
           :_reccurency="task.reccurency"
-          :_favorited="task.favorite"
-          @update-done="updateDone(index, $event)"
-          @open-task-details-dialog="openTaskDetailsDialog(task.id)"
+          :_favorite="task.favorite"
+          @updated="updateTask($event, task)"
+          @open-task-details-dialog="openTaskDetailsDialog(task)"
         />
       </q-list>
     </q-expansion-item>
@@ -36,15 +38,19 @@
       round
       icon="mdi-plus"
       color="blue"
-      class="absolute-bottom-right q-pa-md q-ma-md"
+      class="fixed-bottom-right q-pa-md q-ma-md"
       @click="openCreateTaskDialog"
     />
     <TaskDetailsDialog
+      v-if="selectedTask.id"
       ref="taskDetailsDialog"
+      :_id="selectedTask.id"
       :_title="selectedTask.name"
       :_done="selectedTask.done"
-      :_favorited="selectedTask.favorite"
+      :_favorite="selectedTask.favorite"
       :_createdAt="selectedTask.createdAt"
+      @updated="updateTask"
+      @reload="load"
     />
     <CreateTaskDialog
       ref="createTaskDialog"
@@ -57,7 +63,8 @@
 import Task from "src/components/tasks/Task.vue"
 import TaskDetailsDialog from "src/components/tasks/TaskDetailsDialog.vue"
 import CreateTaskDialog from "src/components/tasks/CreateTaskDialog.vue"
-import { createTask } from 'src/requests/tasks'
+
+import { fetchTasks, saveTask } from 'src/requests/tasks'
 
 export default {
   name: 'Tasks',
@@ -68,48 +75,48 @@ export default {
   },
   data: function () {
     return {
-      tasksToDo: [],
-      tasksDone: [],
+      tasks: [],
       selectedTask: {},
     };
   },
   created: async function () {
     await this.load();
   },
+  computed: {
+    tasksDone: function () {
+      return this.tasks.filter(task => task.done)
+    },
+    tasksToDo: function () {
+      return this.tasks.filter(task => !task.done)
+    },
+  },
   methods: {
     load: async function () {
-      const response = await this.$api.get('task');
+      const unorderedTasks = await fetchTasks();
 
-      const tasks = response?.data;
-
-      this.tasksDone = []
-      this.tasksToDo = []
-
-      if (tasks) {
-        tasks.forEach(task => {
-          if (task.done) {
-            this.tasksDone.push(task);
-          } else {
-            this.tasksToDo.push(task);
-          }
-        })
-      }
+      this.tasks = unorderedTasks.sort((a, b) => b.favorite - a.favorite);;
     },
-    updateDone: async function (index, isDone) {
-      if (isDone) {
-        const task = this.tasksToDo.splice(index, 1)[0];
-        task.done = isDone;
-        this.tasksDone.splice(this.tasksDone.length, 1, task);
-        await createTask(task);
+    updateTask: async function (newTaskValues, task) {
+      if (!task) {
+        task = this.tasks.find(task => task.id === newTaskValues.id);
+      }
+
+
+      if (task.id === newTaskValues.id) {
+        const updatedTask = { ...task, ...newTaskValues };
+
+        await saveTask(updatedTask);
+
+        this.load();
       } else {
-        const task = this.tasksDone.splice(index, 1)[0];
-        task.done = isDone;
-        this.tasksToDo.splice(this.tasksToDo.length, 1, task);
-        await createTask(task);
+        console.error('The id\'s do not coincide.')
       }
     },
-    openTaskDetailsDialog: function (taskId) {
-      this.selectedTask = this.tasksToDo.find(task => task.id === taskId) ?? this.tasksDone.find(task => task.id === taskId);
+    openTaskDetailsDialog: async function (task) {
+      this.selectedTask = task;
+
+      await this.$nextTick();
+
       this.$refs.taskDetailsDialog.open();
     },
     openCreateTaskDialog: function () {

@@ -14,33 +14,32 @@
           @click="close"
         >
           <q-icon name="mdi-arrow-left" class="q-mx-md" />
-          <span>{{  $t('MY_DAY') }} </span>
+          <span v-html="$t('MY_DAY')" />
         </q-btn>
       </q-card-section>
       <q-card-section class="row justify-left items-center q-pa-none">
         <q-checkbox
-          v-model="done"
+          v-model="task.done"
           checked-icon="mdi-check-circle-outline"
           unchecked-icon="mdi-circle-outline"
           size="xl"
-          @click="updateDone"
+          @click="updateTask"
         />
-        <span class="text-h5">{{ _title }}</span>
+        <span v-html="_title" class="text-h5" />
         <q-space />
         <q-checkbox
-          v-model="favorited"
+          v-model="task.favorite"
           checked-icon="mdi-star"
           unchecked-icon="mdi-star-outline"
           size="lg"
           class="self-end"
+          @click="updateTask"
         />
       </q-card-section>
       <q-card-section class="col-grow">
         <TaskSteps />
 
-        <div
-          class="row justify-start items-center q-pa-none"
-        >
+        <div class="row justify-start items-center q-pa-none" >
           <q-icon
             name="mdi-weather-sunny"
             size="sm"
@@ -54,9 +53,7 @@
           />
         </div>
 
-        <div
-          class="row justify-start items-center q-pa-none"
-        >
+        <div class="row justify-start items-center q-pa-none" >
           <q-icon
             name="mdi-bell-outline"
             size="sm"
@@ -69,9 +66,7 @@
           />
         </div>
 
-        <div
-          class="row justify-start items-center q-pa-none"
-        >
+        <div class="row justify-start items-center q-pa-none" >
           <q-icon
             name="mdi-calendar"
             size="sm"
@@ -84,9 +79,7 @@
           />
         </div>
 
-        <div
-          class="row justify-start items-center q-pa-none"
-        >
+        <div class="row justify-start items-center q-pa-none" >
           <q-icon
             name="mdi-autorenew"
             size="sm"
@@ -100,9 +93,7 @@
           />
         </div>
 
-        <div
-          class="row justify-start items-center q-pa-none"
-        >
+        <div class="row justify-start items-center q-pa-none" >
           <q-icon
             name="mdi-attachment"
             size="sm"
@@ -142,6 +133,7 @@
 
 <script>
 import { date } from 'quasar'
+import { saveTask, deleteTask } from 'src/requests/tasks'
 import TaskSteps from 'src/components/tasks/TaskSteps.vue'
 import CConfirmDialog from 'src/components/core/CConfirmDialog.vue'
 
@@ -152,32 +144,31 @@ export default {
     CConfirmDialog: CConfirmDialog,
   },
   props: {
+    _id: {
+      required: true,
+      type: Number,
+    },
     _title: {
       required: true,
       type: String,
-      default: '',
     },
     _done: {
       required: true,
       type: Boolean,
-      default: false,
     },
-    _favorited: {
+    _favorite: {
       required: true,
       type: Boolean,
-      default: false,
     },
     _createdAt: {
       required: true,
       type: String,
-      default: '',
     }
   },
   data: function () {
     return {
-      isOpen: true,
-      done: !!this._done,
-      favorited: !!this._favorited,
+      isOpen: false,
+      task: {},
     };
   },
   computed: {
@@ -190,23 +181,37 @@ export default {
     }
   },
   methods: {
-    updateDone: function () {
-      this.$emit('updateDone', this.done);
+    load: function () {
+      this.task = {
+        id: this._id,
+        done: !!this._done,
+        favorite: !!this._favorite,
+      }
     },
-    deleteTask: function () {
+    updateTask: async function () {
+      this.$emit('updated', this.task);
+    },
+    deleteTask: async function () {
+      await deleteTask(this._id)
+
       this.closeConfirmDeleteDialog();
-    },
-    open: async function () {
-      this.isOpen = true;
-    },
-    close: function () {
-      this.isOpen = false;
+      this.close();
     },
     openConfirmDeleteDialog: async function () {
       this.$refs.confirmDeleteDialog.open();
     },
     closeConfirmDeleteDialog: function () {
       this.$refs.confirmDeleteDialog.close();
+    },
+    open: function () {
+      this.load();
+
+      this.isOpen = true;
+    },
+    close: function () {
+      this.$emit('reload')
+
+      this.isOpen = false;
     },
   },
 }

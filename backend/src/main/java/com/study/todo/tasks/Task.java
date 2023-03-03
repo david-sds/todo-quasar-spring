@@ -27,6 +27,9 @@ public class Task {
     private Date remindMeDate;
     private Boolean favorite;
     private Boolean myDay;
+    private Date createdAt = new Date();
+    private Date updatedAt = new Date();
+    private Date completedAt;
     private Long groupId;
     private Long stepsId;
     private Long fileId;

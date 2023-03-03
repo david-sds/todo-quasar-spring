@@ -1,11 +1,10 @@
 # todo-quasar-spring
 
-## Feature List
-
 ### To Do
-
+- Register form validation
+- Dark mode
 
 ### Done
 - i18n
-- Token JWT
+- Auth with JWT
 - Postgres running on Docker

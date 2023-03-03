@@ -1,10 +1,10 @@
 <template>
-  <q-item class="task-card">
+  <q-item v-if="task.id" class="task-card">
     <q-checkbox
-      v-model="done"
+      v-model="task.done"
       checked-icon="mdi-check-circle-outline"
       unchecked-icon="mdi-circle-outline"
-      @click="updateDone"
+      @click="$emit('updated', task)"
     />
     <q-item-section style="cursor: pointer" @click="openTaskDetailsDialog">
       <div>
@@ -25,63 +25,63 @@
       </div>
     </q-item-section>
     <q-checkbox
-      v-model="favorited"
+      v-model="task.favorite"
       checked-icon="mdi-star"
       unchecked-icon="mdi-star-outline"
+      @click="$emit('updated', task)"
     />
   </q-item>
 </template>
 
 <script>
+
 export default {
   name: "Task",
   props: {
-    _done: {
+    _id: {
+      type: Number,
       required: true,
+    },
+    _done: {
       type: Boolean,
-      default: false,
+      required: true,
     },
     _title: {
-      required: true,
       type: String,
-      default: '',
+      required: true,
     },
     _group: {
-      required: true,
       type: String,
-      default: '',
+      required: false,
     },
     _day: {
-      required: true,
       type: String,
-      default: '',
+      required: false,
     },
     _reccurency: {
-      required: true,
       type: Boolean,
-      default: false,
+      required: false,
     },
-    _favorited: {
-      required: true,
+    _favorite: {
       type: Boolean,
-      default: false,
+      required: true,
     },
   },
   data: function () {
     return {
-      done: this._done,
-      favorited: this._favorited,
+      task: {
+        id: this._id,
+        done: !!this._done,
+        favorite: !!this._favorite,
+      }
     };
   },
   computed: {
     titleStyle: function () {
-      return this.done ? 'text-decoration: line-through;' : '';
+      return this.task.done ? 'text-decoration: line-through;' : '';
     },
   },
   methods: {
-    updateDone: function () {
-      this.$emit('updateDone', this.done);
-    },
     openTaskDetailsDialog: function () {
       this.$emit('openTaskDetailsDialog')
     },

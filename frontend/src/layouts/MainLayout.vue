@@ -16,7 +16,7 @@
 
     <q-drawer v-model="menuDrawer" show-if-above bordered class="column justify-between items-start">
       <q-list class="full-width">
-        <q-item-label header @click="menuDrawerOptionFunction">
+        <q-item-label header>
           Menu
         </q-item-label>
         <q-item
@@ -29,9 +29,11 @@
             text-color="grey-10"
             align="left"
             class="col-grow q-py-md"
+            no-caps
             @click="menuDrawerOptionFunction(option.name)"
           >
-            <span v-html="option.name" style="font-weight: normal;"/>
+            <q-icon :name="option.icon" :color="option.color" class="q-mr-sm" />
+            <span v-html="$t(option.name)" style="font-weight: normal;"/>
           </q-btn>
         </q-item>
       </q-list>
@@ -41,8 +43,10 @@
           text-color="grey-10"
           align="left"
           class="col-grow q-py-md"
+          no-caps
           @click="logout"
         >
+          <q-icon name="mdi-logout" class="q-mr-sm" />
           <span v-html="$t('LOGOUT')" style="font-weight: normal;"/>
         </q-btn>
       </q-item>
@@ -67,8 +71,28 @@ export default ({
       menuDrawer: false,
       menuDrawerOptions: [
         {
+          name: RouteNames.MY_DAY.NAME,
+          route: RouteNames.MY_DAY.PATH,
+          icon: 'mdi-weather-sunny',
+          color: 'indigo-3',    
+        },
+        {
+          name: RouteNames.FAVORITED.NAME,
+          route: RouteNames.FAVORITED.PATH,
+          icon: 'mdi-star-outline',
+          color: 'red-7',
+        },
+        {
+          name: RouteNames.PLANNED.NAME,
+          route: RouteNames.PLANNED.PATH,
+          icon: 'mdi-calendar-month',
+          color: 'brown-4',
+        },
+        {
           name: RouteNames.TASKS.NAME,
           route: RouteNames.TASKS.PATH,
+          icon: 'mdi-home',
+          color: 'purple-3',
         }
       ],
     };
@@ -77,8 +101,17 @@ export default ({
     toggleMenuDrawer: function () {
       this.menuDrawer = !this.menuDrawer;
     },
-    menuDrawerOptionFunction:function (drawerOption) {
-      switch (drawerOption) {
+    menuDrawerOptionFunction:function (drawerOptionName) {
+      switch (drawerOptionName) {
+        case RouteNames.MY_DAY.NAME:
+          this.$router.push(RouteNames.MY_DAY.PATH)
+          break;
+        case RouteNames.FAVORITED.NAME:
+          this.$router.push(RouteNames.FAVORITED.PATH)
+          break;
+        case RouteNames.PLANNED.NAME:
+          this.$router.push(RouteNames.PLANNED.PATH)
+          break;
         case RouteNames.TASKS.NAME:
           this.$router.push(RouteNames.TASKS.PATH)
           break;
@@ -86,6 +119,7 @@ export default ({
           this.$router.push('/')
           break;
       }
+      this.toggleMenuDrawer();
     },
     logout: async function () {
       await this.auth.logout();

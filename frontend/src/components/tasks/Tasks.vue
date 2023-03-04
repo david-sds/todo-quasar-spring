@@ -56,6 +56,7 @@
       ref="createTaskDialog"
       @created="load"
     />
+    <div v-if="filteredTasks.length && false"/>
   </div>
 </template>
 
@@ -65,6 +66,7 @@ import TaskDetailsDialog from "src/components/tasks/TaskDetailsDialog.vue"
 import CreateTaskDialog from "src/components/tasks/CreateTaskDialog.vue"
 
 import { fetchTasks, saveTask } from 'src/requests/tasks'
+import RouteNames from 'src/router/RouteNames.js'
 
 export default {
   name: 'Tasks',
@@ -83,11 +85,25 @@ export default {
     await this.load();
   },
   computed: {
+    filteredTasks: function () {
+      switch (this.$route.path) {
+        case RouteNames.MY_DAY.PATH:
+          return this.tasks;
+        case RouteNames.FAVORITED.PATH:
+          return this.tasks.filter(task => task.favorite);
+        case RouteNames.PLANNED.PATH:
+          return this.tasks;
+        case RouteNames.TASKS.PATH:
+          return this.tasks;
+        default:
+          return this.tasks;
+      }
+    },
     tasksDone: function () {
-      return this.tasks.filter(task => task.done)
+      return this.filteredTasks.filter(task => task.done)
     },
     tasksToDo: function () {
-      return this.tasks.filter(task => !task.done)
+      return this.filteredTasks.filter(task => !task.done)
     },
   },
   methods: {

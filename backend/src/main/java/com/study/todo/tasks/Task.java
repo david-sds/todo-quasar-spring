@@ -22,7 +22,6 @@ public class Task {
     private String icon;
     private Date dueDate;
     private Boolean done;
-    private Date doneData;
     private Boolean remindMe;
     private Date remindMeDate;
     private Boolean favorite;

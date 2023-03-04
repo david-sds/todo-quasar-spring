@@ -1,11 +1,23 @@
 const RouteNames = {
   AUTH: {
-    NAME: "Auth",
+    NAME: "AUTH",
     PATH: "/auth",
   },
+  MY_DAY: {
+    NAME: 'MY_DAY',
+    PATH: '/',
+  },
+  FAVORITED: {
+    NAME: 'FAVORITED',
+    PATH: '/favorited',
+  },
+  PLANNED: {
+    NAME: 'PLANNED',
+    PATH: '/planned',
+  },
   TASKS: {
-    NAME: 'Tasks',
-    PATH: 'task',
+    NAME: 'TASKS',
+    PATH: '/tasks',
   },
 }
 

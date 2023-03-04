@@ -6,6 +6,18 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
+        path: RouteNames.MY_DAY.PATH,
+        component: () => import('src/pages/tasks/TasksPage.vue'),
+      },
+      {
+        path: RouteNames.FAVORITED.PATH,
+        component: () => import('src/pages/tasks/TasksPage.vue'),
+      },
+      {
+        path: RouteNames.PLANNED.PATH,
+        component: () => import('src/pages/tasks/TasksPage.vue'),
+      },
+      {
         path: RouteNames.TASKS.PATH,
         component: () => import('src/pages/tasks/TasksPage.vue'),
       },

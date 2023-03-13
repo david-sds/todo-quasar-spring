@@ -59,53 +59,18 @@
       :_confirm="$t('OK')"
       :_cancel="$t('CANCEL')"
     >
-      <q-tabs v-if="pickTime" >
-        <q-tab
-          :label="$t('DATE')"
-          class="col-grow"
-          @click="dateTimeSelected = 1"
-        />
-        <q-tab
-          :label="$t('TIME')"
-          class="col-grow"
-          @click="dateTimeSelected = 2"
-        />
-      </q-tabs>
-      <q-carousel
-        v-model="dateTimeSelected"
-        animated
-        navigation
-        transition-prev="slide-right"
-        transition-next="slide-left"
-      >
-        <q-carousel-slide
-          :name="1"
-          class="q-pa-none"
-        >
-          <q-date
-            v-model="date"
-            flat
-          />
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="2"
-          class="q-pa-none"
-        >
-          <q-time
-            v-if="pickTime"
-            v-model="time"
-            flat
-          />
-        </q-carousel-slide>
-      </q-carousel>
+      <CDateTime
+        v-model="dateTime"
+        _date
+        :_time="pickTime"
+      />
     </CConfirmDialog>
   </q-dialog>
 </template>
 
 <script>
-import { date } from 'quasar'
-
 import CSelect from 'src/components/core/CSelect.vue';
+import CDateTime from 'src/components/core/CDateTime.vue';
 import CConfirmDialog from 'src/components/core/CConfirmDialog.vue';
 
 import { saveTask } from 'src/requests/tasks'
@@ -114,6 +79,7 @@ export default {
   name: "CreateTaskDialog",
   components: {
     CSelect: CSelect,
+    CDateTime: CDateTime,
     CConfirmDialog: CConfirmDialog,
   },
   data: function () {
@@ -124,10 +90,7 @@ export default {
       dueDate: null,
       remindMe: null,
       repeat: null,
-      date: this.getCurrentFormattedDate(),
-      time: this.getCurrentFormattedTime(),
-      dateTimeSelected: 1,
-      pickTime: null,
+      dateTime: null,
       dueDateOptions: [
         {
           id: "today",
@@ -253,12 +216,6 @@ export default {
         default:
           break;
       }
-    },
-    getCurrentFormattedDate: function () {
-      return date.formatDate(new Date(), "YYYY/MM/DD");
-    },
-    getCurrentFormattedTime: function () {
-      return date.formatDate(new Date(), "HH:mm");
     },
     open: function () {
       this.isOpen = true;

@@ -30,11 +30,14 @@
   "ARE_YOU_SURE_?": "Tem certeza?",
   "WILL_BE_PERMANENTLY_DELETED": "vai ser deletada permanentemente.",
   "CANCEL": "Cancelar",
+  "OK": "OK",
   "DELETE": "Deletar",
   "TODAY": "Hoje",
   "LATER_TODAY": "Hoje mais tarde",
   "TOMORROW": "Amanhã",
   "NEXT_WEEK": "Próxima semana",
+  "DATE": "Data",
+  "TIME": "Hora",
   "PICK_A_DATE": "Escolha uma data",
   "PICK_A_DATE_AND_TIME": "Escolha uma data e hora",
   "DAILY": "Diário",
@@ -43,6 +46,7 @@
   "MONTHLY": "Mensal",
   "YEARLY": "Anual",
   "CUSTOM": "Personalizado",
+  "DUE_X": "Vence {x}",
   "NOTIFY": {
     "USER": {
       "CREATED": "Conta criada.",

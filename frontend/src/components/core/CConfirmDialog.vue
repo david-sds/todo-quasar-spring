@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-model="isOpen">
     <q-card>
-      <q-card-section>
+      <q-card-section v-if="isTitleSection">
         <span
           class="text-h6"
           v-html="_title"
@@ -12,6 +12,7 @@
           v-html="_subtitle"
         />
       </q-card-section>
+      <slot />
       <q-card-actions>
         <q-space />
         <q-btn
@@ -36,11 +37,11 @@ export default {
   props: {
     _title: {
       type: String,
-      default: '',
+      default: null,
     },
     _subtitle: {
       type: String,
-      default: '',
+      default: null,
     },
     _cancel: {
       type: String,
@@ -59,6 +60,11 @@ export default {
     return {
       isOpen: false,
     };
+  },
+  computed: {
+    isTitleSection: function () {
+      return this._title || this._subtitle;
+    }
   },
   methods: {
     open: function () {

@@ -14,13 +14,23 @@
       <q-input
         v-model="step.name"
         class="col-grow"
+        dense
       >
         <template v-slot:append>
-          <COptions
-            :_options="stepOptions"
-            @promote="promoteStep(step)"
-            @delete="deleteStep(step)"
-          />
+          <q-btn
+            no-caps
+            no-wrap
+            flat
+            round
+            icon="mdi-dots-vertical"
+            no-icon-animation
+          >
+            <CMenu
+              v-model="teste"
+              :_options="stepOptions"
+              @input="executeChosenOption(step, $event)"
+            />
+          </q-btn>
         </template>
       </q-input>
     </q-card-section>
@@ -46,12 +56,12 @@
 </template>
 
 <script>
-import COptions from 'src/components/core/COptions.vue'
+import CMenu from 'src/components/core/CMenu.vue'
 
 export default {
   name: 'TaskSteps',
   components: {
-    COptions: COptions,
+    CMenu: CMenu,
   },
   data: function () {
     return {
@@ -90,6 +100,18 @@ export default {
       this.$refs.addStepInput.blur();
 
       this.stepName = "";
+    },
+    executeChosenOption: function (step, chosenOption) {
+      switch (chosenOption) {
+        case 'promote':
+          this.promoteStep(step)
+          break;
+        case 'delete':
+          this.deleteStep(step)
+          break;
+        default:
+          break;
+      }
     },
     promoteStep: function (step) {
       console.log('promoteStep', step)

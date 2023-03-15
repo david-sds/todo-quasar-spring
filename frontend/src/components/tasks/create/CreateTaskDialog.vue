@@ -55,15 +55,40 @@
       </q-card-section>
     </q-card>
     <CConfirmDialog
-      ref="dateDialog"
+      ref="dueDateDialog"
+      _square
       :_confirm="$t('OK')"
       :_cancel="$t('CANCEL')"
+      @confirm="confirmDueDateDialog"
+      @cancel="cancelDueDateDialog"
     >
       <CDateTime
-        v-model="dateTime"
+        v-model="dueDate"
         _date
-        :_time="pickTime"
       />
+    </CConfirmDialog>
+    <CConfirmDialog
+      ref="remindMeDialog"
+      _square
+      :_confirm="$t('OK')"
+      :_cancel="$t('CANCEL')"
+      @confirm="confirmRemindMeDialog"
+      @cancel="cancelRemindMeDialog"
+    >
+      <CDateTime
+        v-model="remindMe"
+        _date
+        _time
+      />
+    </CConfirmDialog>
+    <CConfirmDialog
+      ref="customDialog"
+      _square
+      :_confirm="$t('OK')"
+      :_cancel="$t('CANCEL')"
+      @confirm="confirmCustomDialog"
+      @cancel="cancelCustomDialog"
+    >
     </CConfirmDialog>
   </q-dialog>
 </template>
@@ -72,6 +97,13 @@
 import CSelect from 'src/components/core/CSelect.vue';
 import CDateTime from 'src/components/core/CDateTime.vue';
 import CConfirmDialog from 'src/components/core/CConfirmDialog.vue';
+
+import {
+  createTasksOptionsIds,
+  dueDateOptions,
+  remindMeOptions,
+  repeatOptions,
+} from './createTaskOptions.js'
 
 import { saveTask } from 'src/requests/tasks'
 
@@ -84,6 +116,9 @@ export default {
   },
   data: function () {
     return {
+      dueDateOptions: dueDateOptions,
+      remindMeOptions: remindMeOptions,
+      repeatOptions: repeatOptions,
       isOpen: false,
       done: false,
       name: null,
@@ -91,86 +126,12 @@ export default {
       remindMe: null,
       repeat: null,
       dateTime: null,
-      dueDateOptions: [
-        {
-          id: "today",
-          icon: 'mdi-calendar-today',
-          name: this.$t("TODAY"),
-        },
-        {
-          id: "tomorrow",
-          icon: 'mdi-calendar-arrow-right',
-          name: this.$t("TOMORROW"),
-        },
-        {
-          id: "next-week",
-          icon: 'mdi-calendar-week',
-          name: this.$t("NEXT_WEEK"),
-        },
-        {
-          id: "pick-a-date",
-          icon: 'mdi-calendar-cursor',
-          name: this.$t("PICK_A_DATE"),
-          complex: true,
-        },
-      ],
-      remindMeOptions: [
-        {
-          id: "later-today",
-          icon: 'mdi-update',
-          name: this.$t("LATER_TODAY"),
-        },
-        {
-          id: "tomorrow",
-          icon: 'mdi-clock-outline',
-          name: this.$t("TOMORROW"),
-        },
-        {
-          id: "next-week",
-          icon: 'mdi-clock-start',
-          name: this.$t("NEXT_WEEK"),
-        },
-        {
-          id: "pick-a-date-and-time",
-          icon: 'mdi-calendar-clock',
-          name: this.$t("PICK_A_DATE_AND_TIME"),
-          complex: true,
-        },
-      ],
-      repeatOptions: [
-        {
-          id: "daily",
-          icon: 'mdi-repeat',
-          name: this.$t("DAILY"),
-        },
-        {
-          id: "weekdays",
-          icon: 'mdi-repeat',
-          name: this.$t("WEEKDAYS"),
-        },
-        {
-          id: "weekly",
-          icon: 'mdi-repeat-once',
-          name: this.$t("WEEKLY"),
-        },
-        {
-          id: "monthly",
-          icon: 'mdi-calendar-refresh',
-          name: this.$t("MONTHLY"),
-        },
-        {
-          id: "yearly",
-          icon: 'mdi-star-shooting-outline',
-          name: this.$t("YEARLY"),
-        },
-        {
-          id: "custom",
-          icon: 'mdi-pencil-circle-outline',
-          name: this.$t("CUSTOM"),
-          complex: true,
-        },
-      ],
     };
+  },
+  watch: {
+    dateTime: function () {
+      console.log('val', this.dateTime)
+    }
   },
   computed: {
     isTaskName: function () {
@@ -200,17 +161,35 @@ export default {
         throw new Error(e);
       }
     },
+    confirmDueDateDialog: function () {
+      this.$refs.dueDateDialog.close();
+    },
+    cancelDueDateDialog: function () {
+      this.$refs.dueDateDialog.close();
+    },
+    confirmRemindMeDialog: function () {
+      this.$refs.remindMeDialog.close();
+    },
+    cancelRemindMeDialog: function () {
+      this.$refs.remindMeDialog.close();
+    },
+    confirmCustomDialog: function () {
+      this.$refs.customDialog.close();
+    },
+    cancelCustomDialog: function () {
+      this.$refs.customDialog.close();
+    },
     executeCustomOptions: function (option) {
       switch (option?.id) {
-        case 'pick-a-date':
-          this.pickTime = false;
-          this.$refs.dateDialog.open();
+        case createTasksOptionsIds.PICK_A_DATE:
+          this.lastDialogOption = createTasksOptionsIds.PICK_A_DATE;
+          this.$refs.dueDateDialog.open();
           break;
-        case 'pick-a-date-and-time':
-          this.pickTime = true;
-          this.$refs.dateDialog.open();
+        case createTasksOptionsIds.PICK_A_DATE_AND_TIME:
+          this.lastDialogOption = createTasksOptionsIds.PICK_A_DATE_AND_TIME;
+          this.$refs.remindMeDialog.open();
           break;
-        case 'custom':
+        case createTasksOptionsIds.CUSTOM:
           console.log('custom');
           break;
         default:

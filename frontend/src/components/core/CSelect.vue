@@ -35,18 +35,18 @@
       class="badge-round-borders q-py-xs q-px-sm q-mr-sm"
     >
       <q-icon
-        v-if="selectedOption.icon"
-        :name="selectedOption.icon"
+        v-if="modelValue.icon"
+        :name="modelValue.icon"
         size="xs"
       />
       <span
-        v-html="$t('DUE_X', { x: selectedOption.name })"
+        v-html="selectedOptionLabel"
         class="text-subtitle2 q-mx-sm"
       />
       <q-icon
         name="mdi-close-circle"
         size="xs"
-        @click="selectedOption = null"
+        @click="selectOption(null)"
       />
     </q-badge>
   </div>
@@ -63,6 +63,7 @@ export default {
   props: {
     modelValue: {
       type: Object,
+      default: null,
     },
     _options: {
       type: Array,
@@ -77,19 +78,24 @@ export default {
       default: '',
     },
   },
-  data: function () {
-    return {
-      selectedOption: null,
-    };
-  },
   computed: {
     isSelectedOption: function () {
-      return this.selectedOption instanceof Object && !this.selectedOption.complex;
+      if (!this.modelValue?.dialog) {
+        return this.modelValue instanceof Object;
+      }
+
+      return !!this.modelValue.dialog?.value;
+    },
+    selectedOptionLabel: function () {
+      if (!this.modelValue?.dialog) {
+        return this.$t('DUE_X', { x: this.modelValue.name });
+      }
+      
+      return this.$t('DUE_X', { x: this.modelValue.dialog?.value })
     },
   },
   methods: {
     selectOption: function (input) {
-      this.selectedOption = input;
       this.$emit('update:modelValue', input);
     },
   },

@@ -63,7 +63,7 @@
 <script>
 import Task from "src/components/tasks/Task.vue"
 import TaskDetailsDialog from "src/components/tasks/TaskDetailsDialog.vue"
-import CreateTaskDialog from "src/components/tasks/CreateTaskDialog.vue"
+import CreateTaskDialog from "src/components/tasks/create/CreateTaskDialog.vue"
 
 import { fetchTasks, saveTask } from 'src/requests/tasks'
 import RouteNames from 'src/router/RouteNames.js'

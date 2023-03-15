@@ -8,7 +8,7 @@ import {
  } from 'src/boot/notify'
 import { i18n } from 'src/boot/i18n';
 
-const { t, tc } = i18n.global;
+const { t } = i18n.global;
 
 
 export const useAuthStore = defineStore('auth', {

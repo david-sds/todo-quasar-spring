@@ -1,16 +1,20 @@
 <template>
   <div>
-    <q-tabs v-if="_date && _time" >
+    <q-tabs v-if="isDateTime" v-model="dateTimeSelected" >
       <q-tab
-        :label="$t('DATE')"
-        class="col-grow"
-        @click="dateTimeSelected = 1"
-      />
+        name="date"
+        class="row justify-center items-center col-grow"
+        @click="selectDate"
+      >
+        <span v-html="$t('DATE')" class="text-bold text-caption" />
+      </q-tab>
       <q-tab
-        :label="$t('TIME')"
-        class="col-grow"
-        @click="dateTimeSelected = 2"
-      />
+        name="time"
+        class="row justify-center items-center col-grow"
+        @click="selectTime"
+      >
+        <span v-html="$t('TIME')" class="text-bold text-caption" />
+      </q-tab>
     </q-tabs>
     <q-carousel
       v-model="dateTimeSelected"
@@ -20,20 +24,24 @@
       transition-next="slide-left"
     >
       <q-carousel-slide
-        :name="1"
+        v-if="_date"
+        name="date"
         class="q-pa-none"
       >
         <q-date
           v-model="date"
+          square
           flat
         />
       </q-carousel-slide>
       <q-carousel-slide
-        :name="2"
+        v-if="_time"
+        name="time"
         class="q-pa-none"
       >
         <q-time
           v-model="time"
+          square
           flat
         />
       </q-carousel-slide>
@@ -43,12 +51,13 @@
 
 <script>
 import { date } from 'quasar'
+import { sleep } from 'src/utils'
 
 export default {
   name: 'CDateTime',
   props: {
     modelValue: {
-      type: String,
+      type: Object,
     },
     _date: {
       type: Boolean,
@@ -57,13 +66,31 @@ export default {
       type: Boolean,
     }
   },
+  watch: {
+    date: async function () {
+      if (this.isDateTime) {
+        await sleep(300);
+        this.selectTime();
+      } else {
+        this.updateModel();
+      }
+    },
+    time: function () {
+      this.updateModel();
+    }
+  },
   data: function () {
     return {
       date: this.getCurrentFormattedDate(),
       time: this.getCurrentFormattedTime(),
-      dateTimeSelected: 1,
+      dateTimeSelected: this.getDefaultTabSelected(),
       pickTime: null,
     };
+  },
+  computed: {
+    isDateTime: function () {
+      return this._date && this._time;
+    },
   },
   methods: {
     getCurrentFormattedDate: function () {
@@ -71,6 +98,44 @@ export default {
     },
     getCurrentFormattedTime: function () {
       return date.formatDate(new Date(), "HH:mm");
+    },
+    getDefaultTabSelected: function () {
+      if (this.isDateTime) {
+        return 'date'
+      }
+
+      if (this._date) {
+        return 'date'
+      }
+
+      if (this._time) {
+        return 'time'
+      }
+    },
+    updateModel: function () {
+      let value;
+
+      if (this.isDateTime) {
+        value = `${this.date} ${this.time}`;
+      }
+
+      if (this._date) {
+        value = this.date;
+      }
+
+      if (this._time) {
+        value = this.time;
+      }
+
+      const newModelValue = { ...this.modelValue, dialog: { value: value } }
+
+      this.$emit('update:modelValue', newModelValue);
+    },
+    selectDate: function () {
+      this.dateTimeSelected = "date";
+    },
+    selectTime: function () {
+      this.dateTimeSelected = "time";
     },
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="isOpen">
-    <q-card>
+    <q-card :square="_square" >
       <q-card-section v-if="isTitleSection">
         <span
           class="text-h6"
@@ -55,6 +55,9 @@ export default {
       type: String,
       default: '',
     },
+    _square: {
+      type: Boolean,
+    }
   },
   data: function () {
     return {

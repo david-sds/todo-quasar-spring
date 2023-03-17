@@ -1,5 +1,7 @@
 # todo-quasar-spring
 
+This is a microsoft To Do clone.
+
 ### To Do
 - Register form validation
 - Dark mode
